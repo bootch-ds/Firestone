@@ -1,0 +1,107 @@
+﻿<div class="template_content">
+	<div class="View_Header" style="display:flex; flex:row">
+		<div style="margin:0 auto">
+			{{ data.GuildName }} Roster List - [ {{AppData.Member_Count}} of {{ AppData.MaxMembers }} ] Members
+		</div>
+		<div style="position:absolute; right:3.0em; font-weight:normal; font-size:1rem; color:white">
+			Show Former Members
+			<input type="checkbox" ng-model="ShowInactive" />
+		</div>
+		
+	</div>
+	<div class="View_Content" scrollchecker>
+		<table class="table-scroll noscrollbar">
+			<thead>
+				<tr>
+					<th style="width:250px; cursor:pointer; text-align:center" ng:click="changeSorting('Name')">
+						Name
+					</th>
+					<th style="width:100px; cursor:pointer; text-align:center" ng:click="changeSorting('Name')">
+						Is Active
+					</th>
+					<th style="width:125px; cursor:pointer; text-align:center" ng:click="changeSorting('Name')">
+						Total Points
+					</th>
+					<th style="width:125px; cursor:pointer; text-align:center" ng:click="changeSorting('Name')">
+						Daily AVG
+					</th>
+					<th style="width:125px; cursor:pointer; text-align:center" ng:click="changeSorting('Name')">
+						14-Day AVG
+					</th>
+					<th style="width:125px; cursor:pointer; text-align:center" ng:click="changeSorting('Name')"  ng-if="!ShowInactive">
+						Join Date
+					</th>
+					<th style="width:125px; cursor: pointer;text-align: center" ng:click="changeSorting('Name')" ng-if="ShowInactive">
+						Exit Date
+					</th>
+					<th>
+						<div class="flex-container myfas" style="width: 200px; margin: 0;vertical-align: middle"
+							 data-toggle="modal" data-target="#MyModal" ng-click="OpenModal('ADD_POINTS')">
+							<span class="fa-stack ">
+								<i class="fa fa-circle fa-stack-1x " style="color: white;"></i>
+								<i class="fa fa-plus-circle fa-stack-2x" style="color: darkgreen;"></i>
+							</span>
+							<span style="font-weight:bold; padding-left:5px">
+								Add Daily Points
+							</span>
+						</div>
+					</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="x in AppData.Members | filter: {IsActive : !ShowInactive} | orderBy:'-TotalPoints'">
+					<td style="width:250px">
+						{{ x.Name}}
+					</td>
+					<td style="width:100px; text-align:center">
+						<i class="fa fa-check" style="color:green" ng-if="x.IsActive"></i>
+						<i class="fa fa-times" style="color:red" ng-if="!x.IsActive"></i>
+					</td>
+					<td style="width:125px">
+						{{ x.TotalPoints }}
+					</td>
+					<td style="width:125px">
+						{{ x.DailyAverage }}
+					</td>
+					<td style="width:125px">
+						{{ x.RunningAverage }}
+					</td>
+					<td style="width:125px; text-align:center" ng-if="x.IsActive">
+						{{ x.JoinDate }}
+					</td>
+					<td style="width:125px; text-align:center" ng-if="!x.IsActive">
+						{{ x.ExitDate }}
+					</td>
+					<td style="text-align:left">
+						<div class="myfas " data-toggle="modal" data-target="#MyModal"
+							 ng-click="OpenModal('EDIT_MEMBER', x)" style="width:45px">
+							<span class="fa-stack ">
+								<i class="fa fa-square fa-stack-1x " style="font-size:1.75em; color: white;"></i>
+								<i class="fa fa-pencil-square fa-stack-2x" style="color: darkgreen;"></i>
+							</span>
+						</div>
+					</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td colspan="8" style="background-color:grey; color:white;">
+						<div class="flex-container myfas" style="width:200px; margin:0; vertical-align:middle"
+							 data-toggle="modal" data-target="#MyModal" ng-click="OpenModal('NEW_MEMBER')">
+
+							<span class="fa-stack ">
+								<i class="fa fa-circle fa-stack-1x " style="color: white;"></i>
+								<i class="fa fa-plus-circle fa-stack-2x" style="color: darkgreen;"></i>
+							</span>
+							<span style="font-weight:bold; padding-left:5px">
+								New Member
+							</span>
+						</div>
+					</td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+

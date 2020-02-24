@@ -1,0 +1,114 @@
+﻿<div class="template_content" ng-controller="Settings_Controller">
+    <div class="View_Header">
+        &nbsp;
+    </div>
+    <div class="View_Content">
+        <table>
+            <tr>
+                <td style="width:150px; text-align:right; padding-right:5px">
+                    Name:
+                </td>
+                <td>
+                    <input class="myInput" autofocus ng-model="SettingsData.UserName" />
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:right; padding-right:5px">
+                    Guild Name:
+                </td>
+                <td>
+                    <input class="myInput" ng-model="SettingsData.GuildName" />
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:right; padding-right:5px">
+                    Max Members:
+                </td>
+                <td>
+                    <input class="myInput" ng-model="SettingsData.MaxMembers" />
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:right; padding-right:5px">
+                    Days To Track:
+                </td>
+                <td>
+                    <input class="myInput" style="width:50px" ng-model="SettingsData.DaysToTrack" />
+                </td>
+            </tr>
+
+            <tr>
+                <td style="text-align:right; padding-right:5px">
+                    Active Members:
+                </td>
+                <td>
+                    <span> {{ SettingsData.Member_Count }} </span>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td style="text-align:right; padding-right:5px">
+                    Download Data :
+                </td>
+                <td>
+                    <input type="button" class="button" ng-click="DownloadData()" value="Download Data" />
+                    <a id="_hrefDownloadLink" href="" style="display:none">Click to Download</a>
+                </td>
+            </tr>
+
+            <tr>
+                <td style="text-align:right; padding-right:5px; vertical-align:top">
+                    Upload Data :
+                </td>
+                <td style="padding:5px 0px">
+                    <div class="dropzone" style="background-color:white; color:black; height:100px" 
+                         file-dropzone="['text', 'json']" data-max-file-size="3"
+                         my-Callback="FileDropped" my-file="FileData.File" my-filename="FileData.FileName">
+                        <span>Drop File Here...</span>
+                    </div>                    
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <br />
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:right; padding-right:5px">
+                    Update/Save:
+                </td>
+                <td>
+                    <button type="button" ng-click="SaveData()">
+                        Update Settings
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <br />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <br />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <br />
+                </td>
+            </tr>
+
+
+            <tr>
+                <td style="text-align:right; padding-right:5px">
+                    Clear Data :
+                </td>
+                <td>
+                    <input type="button" class="button" ng-click="ClearData()" value="Reset" />
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,289 @@
+﻿
+@media only screen and (max-width: 1200px) {
+	.div_content_main {
+		justify-content: left;
+	}
+}
+
+/*suppress spinners on number input*/
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+body {
+	background-color: black;
+	color: white;
+	margin: 0;
+}
+
+.div_main_wrapper {
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+
+.div_header {
+	height: 50px;
+}
+
+.div_middle,
+.div_content_main,
+.template_ph,
+.template_content {
+	display: flex;
+	flex-direction: column;
+	flex: auto;
+	overflow: hidden;
+}
+.div_content_main{
+	width:100%;
+	padding-left:10px;
+}
+.div_middle {
+	flex-direction: row;
+}
+
+.div_content_main {
+	flex-direction: row;
+	height: calc(100% - 25px);
+}
+
+.div_footer {
+	height: 50px;
+}
+
+.div_header > nav,
+.div_footer > nav {
+	height: 100%;
+}
+
+.container {
+	padding: 0px;
+}
+
+.View_Header {
+	flex: none;
+	color: yellow;
+	font-size: 14pt;
+	font-weight: bold;
+	text-align: center;
+	height:40px;
+}
+
+.View_Content {
+	flex: auto;
+	display: flex;
+	overflow: hidden;
+}
+
+.table-scroll {
+	flex: auto;
+	display: flex;
+	flex-flow: column;
+	border-collapse: collapse;
+	overflow: hidden;
+	
+}
+.table-scroll > thead {
+	flex: none;
+	width: calc(100% - 2.0em);
+	display: table;
+	table-layout: fixed;
+	background-color: #00339a;
+	color: white;
+	min-width:1150px;
+	/*overflow-x: auto;*/
+}
+.table-scroll > tbody {
+	flex: auto;
+	flex-flow: column;
+	width: calc(100% - 1.0em);
+	overflow: auto;
+	/*min-width: 1150px;*/
+	/*overflow-x: auto;*/
+}	
+.table-scroll.noscrollbar > tbody {
+	width: calc(100% - 2.0em);
+}
+.table-scroll.noscrollbar > thead
+{
+	width: calc(100% - 2.0em);
+}
+.table-scroll > tbody tr {
+	width: 100%;
+	display: table;
+	table-layout: fixed;
+	height: 40px;
+}
+.table-scroll th, .table-scroll td{
+	border: solid 1px #404040;
+	padding-left:5px;
+}
+.table-scroll th:last-child, 
+.table-scroll td:last-child {
+	border: solid 1px black;
+	width:10px;
+	background-color:black;
+}
+
+
+.fas_button {
+	cursor: pointer;
+	padding: 5px;
+	height: 100%;
+}
+
+.fas_sort_button {
+	font-size: 0.65em;
+	cursor: pointer;
+	float: right;
+	padding-top: 3px;
+}
+
+
+.nav_container {
+	display: block;
+	width:250px;		
+}
+/*pop out the navbar from normal positioning to make it overlay the main_content_div*/
+@media only screen and (max-width: 1350px) {
+	.nav_container {
+		position: absolute;
+		height: calc(100% - 50px);
+		width: 250px;
+		z-index:100;
+		background-color: black;
+		
+	}
+		.nav_container[style*='width: 250px'] {
+			border-right: solid 5px white;
+		}
+		.nav_container[style*='width: 0px'] {
+			border-right: solid 0px white;
+		}
+}
+.navbar-nav > li > a > i{
+	width:20px;
+	text-align:center;
+}
+.navbar-nav > .active > a,
+.navbar-nav > .active > a:hover,
+.navbar-nav > .active > a:focus {
+	color: yellow !important;
+}
+
+.flex-container {
+	margin: 0 auto;
+	display: flex;
+	flex-direction: row;
+}
+.myfas {
+	cursor: pointer;
+	align-items: center;
+}
+
+.myInput:not([type=checkbox]) {
+	background-color: yellow;
+	padding-left: 5px;	
+	height: 30px;
+}
+
+.myInput[type=checkbox] {
+	padding-left: 5px;
+	height: 20px;
+	width: 20px;
+}
+
+/*MODALS - BEGIN*/
+.modal-open .modal {
+	position: absolute;
+	top: calc(15%);
+	max-height: 70%;
+	overflow:hidden;
+}
+.modal-open .modal .modal-dialog {
+	margin: auto;
+}
+.myModal {
+	max-height: calc(80%);
+	flex: auto;
+	display: flex;
+}
+	.myModal .modal-body {
+		background-color: white;
+		color: black;
+		overflow: auto;
+		flex: auto;
+		display: flex;
+	}
+.myModal .modal-header {
+	background-color: #00339a;
+	color: white;
+	height: 50px;
+	font-weight:bold;
+	padding-top: 5px;
+	padding-left: 5px;
+}
+.myModal .modal-footer {
+	background-color: grey;
+	color: white;
+	height: 55px;
+	padding: 0px;
+}
+.myClose {
+	float: right;
+	position: relative;
+	top: 4px;
+	right: -15px;
+	cursor: pointer
+}
+.modal_button {
+	background-color: #4CAF50;
+	border: solid 1px black;
+	vertical-align: baseline;
+	margin: 5px auto;
+	display: block;
+}
+.modal .table-scroll th:last-child,
+.modal .table-scroll td:last-child {
+	border: solid 1px white;
+	width: 10px;
+	background-color: white;
+}
+/*MODALS - END*/
+
+.cal_container {
+	display: flex;
+	flex-direction: column;
+	width: 875px;
+	
+}
+.cal_header {
+	background-color: #00339a;
+	font-weight: bold;
+	text-align: center;
+	border-top: solid 1px grey
+}
+.cal_row {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	flex-basis: calc(14%);	
+}
+.cal_day {
+	width:125px; 
+	border-right: solid 1px grey; 
+	border-bottom: solid 1px grey;	
+}
+.cal_date {
+	width: 25px;
+	border-right: solid 1px grey;
+	border-bottom: solid 1px grey;
+}
+
+.cal_row > div:nth-child(7n+1) {
+	border-left: solid 1px grey;
+}

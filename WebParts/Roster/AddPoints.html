@@ -1,0 +1,42 @@
+﻿<div class="modal_content" ng-controller="Roster_Controller" style="width:500px">
+	<div class="modal-header">
+		Daily Add Points 
+		<input class="myInput" autofocus style="width:100px" ng-model="EntryDate" />
+	</div>
+	<div class="modal-body">
+		<table class="table-scroll" style="margin:0 auto; padding-left:20px">
+			<thead>
+				<tr>
+					<th style="width:250px; cursor:pointer" ng:click="changeSorting('Name')">
+						Name
+					</th>
+					<th style="width:100px; cursor:pointer" ng:click="changeSorting('Name')">
+						Current Total
+					</th>
+
+					<th></th>
+				</tr>
+
+				
+			</thead>
+			<tbody style="overflow-y:scroll; height:400px">
+				<tr ng-repeat="x in RosterData | filter: {IsActive:true}">
+					<td style="width:250px">
+						{{ x.Name }}
+					</td>
+					<td style="width:100px">
+						<input class="myInput" type="number" style="width:100px" ng-model="x.CurrentPoints" />
+					</td>
+					
+					<td></td>
+				</tr>				
+			</tbody>
+		</table>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default modal_button" data-dismiss="modal"
+				ng-click="AddPoints()">
+			Save Points
+		</button>
+	</div>
+</div>

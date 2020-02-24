@@ -1,0 +1,47 @@
+﻿<div class="modal_content" ng-controller="Member_Controller">
+    <div class="modal-header">
+        Add New Member
+    </div>
+    <div class="modal-body">
+        <table>
+            <tr>
+                <td style="padding-bottom:5px; text-align:right; padding-right:5px">
+                    Name:
+                </td>
+                <td style="padding-bottom:5px">
+                    <input class="myInput" autofocus ng-model="MemberData.Name" />
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-bottom:5px; text-align:right; padding-right:5px">
+                    Initial Points:
+                </td>
+                <td style="padding-bottom:5px">
+                    <input class="myInput" type="number" style="width:100px" ng-model="MemberData.InitialPoints" />
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-bottom:5px; text-align:right; padding-right:5px">
+                    Join Date:
+                </td>
+                <td style="padding-bottom:5px">
+                    <input class="myInput" style="width:100px" ng-model="MemberData.JoinDate" />
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-bottom:5px; text-align:right; padding-right:5px">
+                    Is Active:
+                </td>
+                <td style="padding-bottom:5px">
+                    <input class="myInput" type="checkbox" ng-model="MemberData.IsActive" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default modal_button" data-dismiss="modal"
+                ng-click="UpdateMember('NEW')">
+            Add Member
+        </button>
+    </div>
+</div>

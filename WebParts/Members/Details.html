@@ -1,0 +1,151 @@
+﻿<div class="template_content" ng-controller="Member_Controller">
+	<div class="View_Header">
+		Member Name : {{ MemberData.Name }}
+	</div>
+	<div class="View_Content">
+		<div style="display:flex; flex-direction:column; margin: 0 auto">
+			<div style="display:flex; flex-direction:row">
+				<div>
+					<div class="View_Header">
+						Details
+					</div>
+					<div>
+						<table>
+							<tr>
+								<td>
+									Name:
+								</td>
+								<td>
+									<input ng-model="MemberData.Name" />
+								</td>
+							</tr>
+
+							<tr>
+								<td>
+									Join Date:
+								</td>
+								<td>
+									<input ng-model="MemberData.JoinDate" />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									Exit Date:
+								</td>
+								<td>
+									<input ng-model="MemberData.ExitDate" />
+								</td>
+							</tr>
+							<tr>
+								<td style="padding-bottom:5px; text-align:right; padding-right:5px">
+									Is Active:
+								</td>
+								<td style="padding-bottom:5px">
+									<input class="myInput" type="checkbox" ng-model="MemberData.IsActive" />
+								</td>
+							</tr>
+							<tr>
+								<td class="input_label">
+									Delete :
+								</td>
+								<td colspan="2">
+									<input type="button" class="button" ng-click="UpdateMember('DELETE')" value="Remove" data-dismiss="modal" />
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div style="padding-left:10px">
+					<div class="View_Header">
+						Point Stats
+					</div>
+					<div>
+						<table>
+							<tr>
+								<td>
+									Initial Points:
+								</td>
+								<td>
+									<input ng-model="MemberData.InitialPoints" />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									Total Points:
+								</td>
+								<td>
+									{{MemberData.TotalPoints}}
+								</td>
+							</tr>
+							<tr>
+								<td>
+									Daily Average:
+								</td>
+								<td>
+									{{MemberData.DailyAverage}}
+								</td>
+							</tr>
+							<tr>
+								<td>
+									Running Average:
+								</td>
+								<td>
+									{{MemberData.RunningAverage}}
+								</td>
+							</tr>
+						</table>
+
+					</div>
+				</div>
+			</div>
+			<div class="cal_container">
+				<div class="View_Header">
+					Daily Points
+				</div>
+				<div class="cal_row cal_header">
+					<div class="cal_day">
+						SUN
+					</div>
+					<div class="cal_day">
+						MON
+					</div>
+					<div class="cal_day">
+						TUE
+					</div>
+					<div class="cal_day">
+						WED
+					</div>
+					<div class="cal_day">
+						THU
+					</div>
+					<div class="cal_day">
+						FRI
+					</div>
+					<div class="cal_day">
+						SAT
+					</div>
+				</div>
+				<div class="cal_row">
+					<div class="cal_day" ng-repeat="x in PointData.Values">
+						
+							<div class="cal_date">
+								{{ x.DayOfMonth }}
+							</div>
+							<div>
+								Total:
+								&nbsp;&nbsp;{{x.Points}}
+							</div>
+							<div>
+								Gain:
+								&nbsp;&nbsp;{{x.DailyGain}}
+							</div>
+							<div>
+								&nbsp;
+							</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
