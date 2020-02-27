@@ -1,7 +1,7 @@
 ﻿
 app.controller('FS_Controller', function ($scope, $route, $routeParams, $location, $rootScope) {
-    $rootScope.Name = 'ROOT_SCOPE';
-    $scope.Name = 'FS_SCOPE';
+    $rootScope.Name = 'SCOPE_ROOT';
+    $scope.Name = 'SCOPE_FS';
     $scope.AppData = {};
     $scope.DataSize = 0.0;
     $scope.ShowInactive = false;
@@ -15,6 +15,13 @@ app.controller('FS_Controller', function ($scope, $route, $routeParams, $locatio
     $scope.$location = $location;
     $scope.$routeParams = $routeParams;
 
+
+    $scope.sortCol = 'TotalPoints';
+    $scope.sortReverse = true;
+
+    $scope.SortMe = function () {
+        alert('parent sort');
+    }
     $scope.Init = function () {
         $scope.AppData = getData();
         $scope.DataSize = getStorageSize($scope.AppData);
@@ -25,8 +32,9 @@ app.controller('FS_Controller', function ($scope, $route, $routeParams, $locatio
         $scope.DataSize = getStorageSize($scope.AppData);
     };
     $scope.DownloadData = function () {
-        //pass to javascript function
-        downLoadData($scope.AppData.GuildName + '.json');
+        //pass to javascript function        
+        var sDate = MyDateFormat(new Date());
+        downLoadData($scope.AppData.GuildName + ' ' + sDate + '.json');
     };
     $scope.UploadData = function (oFile) {
         //pass to javascript function
@@ -54,8 +62,8 @@ app.controller('FS_Controller', function ($scope, $route, $routeParams, $locatio
 
 //only task is load html content
 app.controller('Modal_Contoller', function ($scope, $rootScope) {
-    $scope.ModalData = {};
-    $scope.ModalData.Name = 'SCOPE_MODAL';
+    $scope.Name = 'SCOPE_MODAL';
+    $scope.ModalData = {};    
     $scope.ModalData.TargetModal = '';
     $scope.ModalData.URL = '';
 
@@ -66,22 +74,22 @@ app.controller('Modal_Contoller', function ($scope, $rootScope) {
         $scope.ModalData.TargetModal = data.Target;
         switch ($scope.ModalData.TargetModal) {
             case 'NEW_MEMBER':
-                $scope.ModalData.URL = 'WebParts/Members/Create.html';
+                $scope.ModalData.URL = 'app/views/Members/Create.html';
                 break;
             case 'EDIT_MEMBER':
-                $scope.ModalData.URL = 'WebParts/Members/Edit.html';
+                $scope.ModalData.URL = 'app/views/Members/Edit.html';
                 break;
             case 'ADD_POINTS':
-                $scope.ModalData.URL = 'WebParts/Roster/AddPoints.html';
+                $scope.ModalData.URL = 'app/views/Roster/AddPoints.html';
                 break;
             default:
-                $scope.ModalData.URL = 'Testing/modalContent.html';
+                $scope.ModalData.URL = 'app/views/DummyModal.html';
                 break;
         }
     };
     $scope.UnLoadModal = function (data) {
         $scope.ModalData.TargetModal = "";
-        $scope.ModalData.URL = 'WebParts/DummyModal.html';
+        $scope.ModalData.URL = 'app/views/DummyModal.html';
 
         //since the Modal does not re-draw at this point the Content for the Modal is Maintained (html/Controller/Scope)
         // => force an update to the Modal_Controller.$scope
@@ -112,7 +120,7 @@ app.controller('Roster_Controller', function ($scope, $rootScope, $timeout) {
         //check if scrollbars were added/removed due to edit
        // $timeout(function () { ScrollCheck(); });
     };
-
+    
     $scope.AddPoints = function () {
         oParentData = parentScope.AppData;
         if (!oParentData) {
@@ -127,7 +135,7 @@ app.controller('Roster_Controller', function ($scope, $rootScope, $timeout) {
                 oPoint.Points = ele.CurrentPoints;
                 oPoint.Date = new Date($scope.EntryDate).toLocaleDateString();
 
-                oMember.AddPoint(oPoint);
+                oMember.Points.AddPoint(oPoint);
                 oParentData.UpdateMember(oMember);
             }
         });
@@ -159,6 +167,11 @@ app.controller('Member_Controller', function ($scope, $rootScope, $timeout, $rou
             boMember.ID = parseInt($scope.MemberID);
             boMember = parentScope.AppData.GetMember(boMember).Clone('DEEP');
         }
+        //this is actually checking the data in the Modal_Controller
+        else if ($scope.ModalData && $scope.ModalData.TargetModal && $scope.ModalData.TargetModal === 'NEW_MEMBER')
+        {
+            boMember = new MemberBO();
+        }
         else {
             boMember = new MemberBO();
             boMember.Name = parentScope.AppData.UserName;
@@ -172,6 +185,9 @@ app.controller('Member_Controller', function ($scope, $rootScope, $timeout, $rou
     $scope.getPoints = function () {
         bc = new PointEntryBC();
 
+        if (!$scope.MemberData.Points || $scope.MemberData.Points.Values.length < 1) {
+            return bc;
+        }
         //add empty beginning points
         var dtStart = new Date($scope.MemberData.Points.Values[0].Date);
         nDayOfWeek = dtStart.getDay();
@@ -232,7 +248,7 @@ app.controller('Member_Controller', function ($scope, $rootScope, $timeout, $rou
                 oPointEntry = new PointEntryBO();
                 oPointEntry.Date = new Date(oMember.JoinDate).toLocaleDateString();
                 oPointEntry.Points = parseInt(oMember.InitialPoints);
-                oMember.AddPoint(oPointEntry);
+                oMember.Points.AddPoint(oPointEntry);
                 oParentData.AddMember(oMember);
                 break;
             case 'EDIT':

@@ -66,7 +66,7 @@ class DataBO {
 	}
 	UpdateMember(boMember) {
 		var boFound = this.GetMember(boMember);
-		if (boFound && boFound.length > 0) {
+		if (boFound) {
 			var nIndex = this.Members.findIndex(zz => zz.ID === boMember.ID);
 
 			if (nIndex > -1) {
@@ -76,7 +76,7 @@ class DataBO {
 	}
 	UpdateMemberPoints(boMember) {
 		var boFound = this.GetMember(boMember);
-		if (boFound && boFound.length > 0) {
+		if (boFound) {
 			var nIndex = this.Members.findIndex(zz => zz.ID === boMember.ID);
 
 			if (nIndex > -1) {
@@ -86,7 +86,7 @@ class DataBO {
 	}
 	DeleteMember(boMember) {
 		var boFound = this.GetMember(boMember);
-		if (boFound && boFound.length > 0) {
+		if (boFound) {
 			var nIndex = this.Members.findIndex(zz => zz.ID === boMember.ID);
 
 			if (nIndex > -1) {
@@ -101,7 +101,9 @@ class MemberBO {
 	get TotalPoints() { return this.Points.TotalPoints; }
 	get DailyAverage() { return this.Points.DailyAverage(this.JoinDate); }
 	get RunningAverage() { return this.Points.RunningAverage; }
+
 	get InitialPoints() { return this.Points.InitialPoints; }
+	set InitialPoints(value) { this.Points.InitialPoints = value; }
 
 	constructor(jsonData) {
 		this.ID = 0;
@@ -112,7 +114,7 @@ class MemberBO {
 		this.JoinDate = new Date().toLocaleDateString();
 		this.ExitDate = new Date('1/1/2000').toLocaleDateString();
 
-		this.Points = [];
+		this.Points = new PointEntryBC();
 
 		if (jsonData) {
 			this.ID = parseInt(jsonData.ID);
@@ -158,7 +160,7 @@ class PointEntryBC {
 	}	
 	get RunningAverage() {
 		if (!this.Values || this.Values.length < 2) {
-			return this.DailyAverage;
+			return this.DailyAverage();
 		}
 		this.Sort();
 		var firstPoint = this.Values[0];
@@ -169,6 +171,19 @@ class PointEntryBC {
 		if (nDays === 0) { nDays = 1; }
 
 		return parseInt((lastPoint.Points - firstPoint.Points) / nDays);
+	}
+	DailyAverage(sJoinDate) {
+
+		var dtNow = new Date();
+		dtNow = new Date(dtNow.getFullYear(), dtNow.getMonth(), dtNow.getDate());
+
+		var nDays = 0;
+		if (sJoinDate) {
+			var dtStart = new Date(sJoinDate);
+			nDays = (dtNow - dtStart) / _MS_PER_DAY;
+		}
+		if (nDays === 0) { nDays = 1; }
+		return parseInt((this.TotalPoints - this.InitialPoints) / nDays);
 	}
 
 	constructor(jsonData) {
@@ -191,14 +206,7 @@ class PointEntryBC {
 		}
 	}
 
-	DailyAverage(sJoinDate) {
-		var dtNow = new Date();
-		dtNow = new Date(dtNow.getFullYear(), dtNow.getMonth(), dtNow.getDate());
-		var dtStart = new Date(sJoinDate);
-		var nDays = (dtNow - dtStart) / _MS_PER_DAY;
-		if (nDays === 0) { nDays = 1; }
-		return parseInt((this.TotalPoints - this.InitialPoints) / nDays);
-	}
+	
 
 	Clone(sIsDeep) {
 		var bo = new PointEntryBC();
@@ -229,16 +237,16 @@ class PointEntryBC {
 	}
 	HasPoint(boPoint) {
 		var dtDate = new Date(boPoint.Date).toLocaleDateString();
-		var boFound = this.PointEntries.filter(ele => { return ele.Date === dtDate; });
+		var boFound = this.Values.filter(ele => { return ele.Date === dtDate; });
 
 		return boFound && boFound.length > 0;
 	}
 	AddPoint(boPoint) {
 		if (!this.HasPoint(boPoint)) {
-			this.PointEntries.push(boPoint);
-			if (this.PointEntries.length > gDaysToTrack) {
+			this.Values.push(boPoint);
+			if (this.Values.length > gDaysToTrack) {
 				this.Sort();
-				this.PointEntries.splice(0, 1);
+				this.Values.splice(0, 1);
 			}
 		}
 		else {
@@ -248,24 +256,25 @@ class PointEntryBC {
 	UpdatePoint(boPoint) {
 		if (this.HasPoint(boPoint)) {
 			var dtDate = new Date(boPoint.Date).toLocaleDateString();
-			var nIndex = this.PointEntries.findIndex(ele => { return ele.Date === dtDate; });
+			var nIndex = this.Values.findIndex(ele => { return ele.Date === dtDate; });
 
 			if (nIndex > -1) {
-				this.PointEntries[nIndex] = boPoint;
+				this.Values[nIndex] = boPoint;
 			}
 		}
 	}
 	DeletePoint(boPoint) {
 		if (this.HasPoint(boPoint)) {
 			var dtDate = new Date(boPoint.Date).toLocaleDateString();
-			var nIndex = this.PointEntries.findIndex(ele => { return ele.Date === dtDate; });
+			var nIndex = this.Values.findIndex(ele => { return ele.Date === dtDate; });
 
 			if (nIndex > -1) {
-				this.PointEntries.splice(nIndex, 1);
+				this.Values.splice(nIndex, 1);
 			}
 		}
 	}
 }
+
 class PointEntryBO {
 	get DayOfMonth() {
 		var dtDate = new Date(this.Date);
@@ -312,4 +321,16 @@ class PointEntryBO {
 		
 		return bo;
 	}
+}
+
+function MyDateFormat(dtDate) {
+	var day = "00" + dtDate.getDate();
+	var month = "00" + (dtDate.getMonth() + 1);
+	var year = "00" + (dtDate.getFullYear() - 2000);
+
+	day = day.substr(day.length - 2);
+	month = month.substr(month.length - 2);
+	year = year.substr(year.length - 2);
+
+	return year + month + day;
 }
